@@ -3,7 +3,7 @@ ____
 # BDOtimres [beta]
 
 Тема на кибер-форуме:
-[www.cyberforum.ru](https://www.cyberforum.ru)
+[www.cyberforum.ru](https://www.cyberforum.ru/post16437481.html)
 ____ 
 ## Общий комментарий:
 Прожект VS 2010 C# (+ portable версия exe в папке `bin`)
@@ -14,8 +14,8 @@ ____
     
 ____     
 ## Как оно выглядит:
-![Screenshot in game 1](BDOtimres/Doc/123.gif)
+![Screenshot in game 1](Doc/123.gif)
     
 ____     
-[Инструкция ...](BDOtimres/Res/Инструкция.txt)
+[Инструкция ...](Res/Инструкция.txt)
 
