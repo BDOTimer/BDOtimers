@@ -52,7 +52,7 @@
             this.panelManager.Controls.Add(this.buttonHelp);
             this.panelManager.Controls.Add(this.buttonMin);
             this.panelManager.Controls.Add(this.buttonAdd);
-            this.panelManager.Location = new System.Drawing.Point(0, 0);
+            this.panelManager.Location = new System.Drawing.Point(3, 3);
             this.panelManager.Name = "panelManager";
             this.panelManager.Size = new System.Drawing.Size(207, 29);
             this.panelManager.TabIndex = 0;
@@ -105,7 +105,7 @@
             this.panelModel.BackColor = System.Drawing.Color.LemonChiffon;
             this.panelModel.Controls.Add(this.buttonOn);
             this.panelModel.Controls.Add(this.richTextBoxInput);
-            this.panelModel.Location = new System.Drawing.Point(0, 35);
+            this.panelModel.Location = new System.Drawing.Point(3, 35);
             this.panelModel.Name = "panelModel";
             this.panelModel.Size = new System.Drawing.Size(207, 29);
             this.panelModel.TabIndex = 1;
@@ -145,7 +145,7 @@
             this.textBoxDebug.Location = new System.Drawing.Point(3, 144);
             this.textBoxDebug.Multiline = true;
             this.textBoxDebug.Name = "textBoxDebug";
-            this.textBoxDebug.Size = new System.Drawing.Size(201, 104);
+            this.textBoxDebug.Size = new System.Drawing.Size(207, 104);
             this.textBoxDebug.TabIndex = 2;
             // 
             // buttonDebugClose
@@ -164,7 +164,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(208, 260);
+            this.BackColor = System.Drawing.Color.DarkBlue;
+            this.ClientSize = new System.Drawing.Size(213, 260);
             this.Controls.Add(this.buttonDebugClose);
             this.Controls.Add(this.panelModel);
             this.Controls.Add(this.panelManager);

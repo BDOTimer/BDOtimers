@@ -75,6 +75,8 @@ namespace BDOtimers
                 case ParseReady.eMODE.POINTTIME:
                 {   if(parseReady.is_alarm())
                     {   ALARM_start();
+                        F.WindowState = FormWindowState.Normal;
+                        R.Focus();
                     }
                     break;
                 }
