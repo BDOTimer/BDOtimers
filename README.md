@@ -17,5 +17,8 @@ ____
 ![Screenshot in game 1](Doc/124.gif)
     
 ____     
+![Screenshot in game 1](Doc/123.gif)
+    
+____     
 [Инструкция ...](Res/Инструкция.txt)
 
