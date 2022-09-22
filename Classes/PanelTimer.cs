@@ -14,16 +14,14 @@ namespace BDOtimers
         {   F = form;
             P = form.PanelClone();
 
-            Control[] 
-            m = P.Controls.Find("buttonOn", false);
+            Control[] m = P.Controls.Find("buttonOn", false);
 
             if (m.Length > 0)
-            {   
-              //m[0].BackColor = MyLib.rgb(255, 0, 0);
+            {   // m[0].BackColor = MyLib.rgb(0, 0, 255);
                 B = (Button)m[0];
             }
             else
-            {   Debug.Out.add("ERROR: PanelTimer(.)");
+            {   Debug.Out.add("ERROR: PanelTimer(.)"); return;
             }
 
             m = P.Controls.Find("richTextBoxInput", false);
@@ -39,7 +37,7 @@ namespace BDOtimers
                 
             }
             else
-            {   Debug.Out.add("ERROR: PanelTimer.work(.)");
+            {   Debug.Out.add("ERROR: PanelTimer.work(.)"); return;
             }
 
             initevent();
@@ -55,116 +53,107 @@ namespace BDOtimers
         //---------------------------|
         // Поля.                     |
         //---------------------------:
-        myTimersForm            F;
-        Panel                   P;
-
-        Button                  B;
-        RichTextBox             R;
+        myTimersForm F;
+        Panel        P;
+        Button       B;
+        RichTextBox  R;
 
         ParseReady parseReady = new ParseReady();
 
-        public Panel getPanel(){ return P; }
+        //-----------------------------|
+        // ФАСАД.                      |<<<------------------------------------:
+        //-----------------------------|
+
+        public Panel getPanel(       ){ return P     ; }
+        public bool  equals  (Panel p){ return P == p; }
 
         public void work(ref Timer t)
-        {
-            if( parseReady.mode == ParseReady.eMODE.ALARM    ||
-                parseReady.mode == ParseReady.eMODE.XXX) return;
-
+        {  
             switch(parseReady.mode)
-            {   case ParseReady.eMODE.BACKTIME :
+            {   case ParseReady.eMODE. BACKTIME:
                 case ParseReady.eMODE.POINTTIME:
                 {   if(parseReady.is_alarm())
                     {   ALARM_start();
+                        R.Focus    ();
                         F.WindowState = FormWindowState.Normal;
-                        R.Focus();
                     }
                     break;
                 }
+                default: return;
             }
             
             R.Text = parseReady.getready();
         }
 
+        //-----------------------------|
+        // ПОДВАЛ.                     |<<<------------------------------------:
+        //-----------------------------|
+
         string mem;
-        void on()
+        private void on()
         {   P.BackColor = Color.PaleGreen;
             mem         = R.Text;
             R.Enabled   = false ;
         }
 
-        void off()
+        private void off()
         {   P.BackColor = Color.LemonChiffon;
             R.Text      = mem ;
             R.Enabled   = true;
         }
 
-        public bool equals(Panel p) { return p == P; }
-
-        public void onoff ()
-        {      R.Enabled = !R.Enabled;
-            if(R.Enabled) on ();
-            else          off();
-        }
-
-        public void KeyDown(object sender, KeyEventArgs e)
-        {   
+        private void KeyDown(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Убрать системный звук.
-                timerstart();
+                e.SuppressKeyPress  =  true; // Убрать системный звук.
+
+                if(parseReady.mode == ParseReady.eMODE.ALARM)
+                {   off       ();
+                    ALARM_stop();
+                }
+                else if(parseReady.mode == ParseReady.eMODE.ERROR)
+                {   off       ();
+                    parseReady.mode = ParseReady.eMODE.XXX;
+                }
+                else timerstart();
             }
-            else if(e.KeyCode       == Keys.Escape && 
+            else if(e.KeyCode       == Keys.Escape         &&
                     parseReady.mode == ParseReady.eMODE.ALARM)
             {   
                 off       ();
                 ALARM_stop();
             }
-            else if(e.KeyCode      == Keys.F)
-            {   
-                Debug.Out.add("F");
+            else if(e.KeyCode       == Keys.O)
+            {   Debug.Out.add("");
             }
-        }
-
-        public void KeyPress(object sender, KeyPressEventArgs e)
-        {   
-            char c = e.KeyChar;
-            if (c == 13)
-            {   e.Handled = true;
-                
-            }
-            Debug.Out.add("KeyPress");
         }
 
         private void initevent()
         {   
-            B.Click    += new System.EventHandler          (buttonOn_Click);
-            R.KeyDown  += new System.Windows.Forms.KeyEventHandler(KeyDown);
-          //R.KeyPress += 
-              //new System.Windows.Forms.KeyPressEventHandler(KeyPress);
+            B.Click   += new System.EventHandler          (buttonOn_Click);
+            R.KeyDown += new System.Windows.Forms.KeyEventHandler(KeyDown);
         }
 
         private void timerstart()
         {
-            switch(R.Text)
-            {   case "del":
-                {   F.panelsManager_delete(P); return;
-                }
-                case "exit":
-                {   F.exit();                  return;
-                }
+            switch(R.Text.ToLower())
+            {   case "d" : F.panelsManager_delete(P); return;
+                case "ex": F.exit                ( ); return;
             }
 
             string error = ParseTextInput.done(ref parseReady, R.Text);
             {   if(error.Length == 0)
-                {   on();
-                    R.Text  = parseReady.getready();
+                {    on();
+                     R.Text = parseReady.getready();
                 }
                 else R.Text = error;
             }
         }
 
-        public void buttonOn_Click(object sender, EventArgs e)
-        { //Debug.Out.add("buttonOn_Click");
+        private void buttonOn_Click(object sender, EventArgs e)
+        { 
+          //Debug.Out.add("buttonOn_Click");
 
             switch(parseReady.mode)
             {   case ParseReady.eMODE.BACKTIME :
@@ -180,6 +169,10 @@ namespace BDOtimers
                 }
                 case ParseReady.eMODE.XXX:
                 {   timerstart();
+                    break;
+                }
+                case ParseReady.eMODE.ERROR:
+                {   off       ();
                     break;
                 }
             }

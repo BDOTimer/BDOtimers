@@ -41,7 +41,10 @@ namespace BDOtimers
         public static MySounds  sound = new MySounds();
 
         public void panelsManager_delete(Control C)
-        {   if(panelsManager.cargo.Count == 1) return;
+        {   if(panelsManager.cargo.Count == 1)
+            {   Debug.Out.add("Этот таймер нужен", "...");
+                return;
+            }
 
             if (C.Name != "panelModel")
             {   Debug.Out.add("ERROR: PanelsManager.delete(.)");
@@ -60,8 +63,7 @@ namespace BDOtimers
             panelsManager.cargo.RemoveAt(i);
             panelsManager.order          ();
 
-            Debug.Out.add(              "cargo.Count",
-                           panelsManager.cargo.Count);
+            Debug.Out.add("Таймер удалён", "...");
         }
 
         public Panel PanelClone()

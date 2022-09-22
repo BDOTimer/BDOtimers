@@ -17,10 +17,10 @@ namespace BDOtimers
         //---------------------------|
         // Поля.                     |
         //---------------------------:
-        public 
+        public
         List<PanelTimer> cargo = new List<PanelTimer>();
         myTimersForm                                  F;
-        const int STEPV =                             2; 
+        const int STEPV =                             2;
 
         public void work(ref Timer t)
         {   foreach (PanelTimer p in cargo)

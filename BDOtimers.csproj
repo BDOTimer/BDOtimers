@@ -54,6 +54,7 @@
     <Compile Include="Classes\MyLib.cs" />
     <Compile Include="Classes\PanelControl.cs" />
     <Compile Include="Classes\Debug.cs" />
+    <Compile Include="Classes\ParseTextInput.cs" />
     <Compile Include="Forms\myTimersForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,7 +63,7 @@
     </Compile>
     <Compile Include="Classes\PanelTimer.cs" />
     <Compile Include="Classes\PanelsManager.cs" />
-    <Compile Include="Classes\ParseTextInput.cs" />
+    <Compile Include="Classes\ParseReady.cs" />
     <Compile Include="Classes\Mover.cs" />
     <Compile Include="Res\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
