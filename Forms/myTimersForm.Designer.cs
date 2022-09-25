@@ -63,9 +63,9 @@
             this.labelNameProgram.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.labelNameProgram.Location = new System.Drawing.Point(38, 8);
             this.labelNameProgram.Name = "labelNameProgram";
-            this.labelNameProgram.Size = new System.Drawing.Size(84, 13);
+            this.labelNameProgram.Size = new System.Drawing.Size(69, 13);
             this.labelNameProgram.TabIndex = 3;
-            this.labelNameProgram.Text = "BDOtimers-2022";
+            this.labelNameProgram.Text = "BDOtimers-...";
             // 
             // buttonHelp
             // 
@@ -193,11 +193,11 @@
         private System.Windows.Forms.Button buttonOn;
         private System.Windows.Forms.RichTextBox richTextBoxInput;
         private System.Windows.Forms.Button buttonHelp;
-        private System.Windows.Forms.Label labelNameProgram;
         private System.Windows.Forms.Timer timerMain;
         private System.Windows.Forms.TextBox textBoxDebug;
         private System.Windows.Forms.Button buttonDebugClose;
         public System.Windows.Forms.Panel panelModel;
+        public System.Windows.Forms.Label labelNameProgram;
     }
 }
 

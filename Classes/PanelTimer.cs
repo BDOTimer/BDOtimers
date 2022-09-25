@@ -29,8 +29,8 @@ namespace BDOtimers
             if (m.Length > 0)
             {   R           = (RichTextBox)m[0];
                 R.MaxLength = 22;
-                R.Font = new System.Drawing.Font("Times", 8.2F, 
-                             System.Drawing.FontStyle.Regular, 
+                R.Font = new System.Drawing.Font("Times"      , 8.2F, 
+                             System.Drawing.FontStyle.Regular , 
                              System.Drawing.GraphicsUnit.Point, ((byte)(2))
                 );
                 R.Multiline = false;
@@ -42,6 +42,8 @@ namespace BDOtimers
 
             initevent();
             off      ();
+          //R.Focus  ();
+            F.ActiveControl = R;
         }
 
         enum eWork
@@ -73,9 +75,9 @@ namespace BDOtimers
             {   case ParseReady.eMODE. BACKTIME:
                 case ParseReady.eMODE.POINTTIME:
                 {   if(parseReady.is_alarm())
-                    {   ALARM_start();
+                    {   F.WindowState = FormWindowState.Normal;
+                        ALARM_start();
                         R.Focus    ();
-                        F.WindowState = FormWindowState.Normal;
                     }
                     break;
                 }
@@ -84,6 +86,8 @@ namespace BDOtimers
             
             R.Text = parseReady.getready();
         }
+
+        public RichTextBox getR(){ return R; }
 
         //-----------------------------|
         // ПОДВАЛ.                     |<<<------------------------------------:
@@ -109,12 +113,20 @@ namespace BDOtimers
                 e.SuppressKeyPress  =  true; // Убрать системный звук.
 
                 if(parseReady.mode == ParseReady.eMODE.ALARM)
-                {   off       ();
+                {
                     ALARM_stop();
+
+                    if(parseReady.dreaming != 0)
+                    {
+                        timerstart_dream();
+                        R.Enabled = false ;
+                    }
+                    else off();
                 }
                 else if(parseReady.mode == ParseReady.eMODE.ERROR)
                 {   off       ();
                     parseReady.mode = ParseReady.eMODE.XXX;
+                    R.ForeColor     = Color.Black;
                 }
                 else timerstart();
             }
@@ -147,7 +159,28 @@ namespace BDOtimers
                 {    on();
                      R.Text = parseReady.getready();
                 }
-                else R.Text = error;
+                else
+                {   R.ForeColor = Color.Red;
+                    R.Text      = error;
+                }
+            }
+        }
+
+        private void timerstart_dream()
+        {
+            string dreaming = Convert.ToString(parseReady.dreaming);
+
+            R.Text = "Dream: " + dreaming
+                   + " +"      + dreaming;
+
+            string error = ParseTextInput.done(ref parseReady, R.Text);
+            {   if(error.Length == 0)
+                {   R.Text = parseReady.getready();
+                }
+                else
+                {   R.ForeColor = Color.Red;
+                    R.Text      = error;
+                }
             }
         }
 
@@ -169,13 +202,17 @@ namespace BDOtimers
                 }
                 case ParseReady.eMODE.XXX:
                 {   timerstart();
+                  //Debug.Out.add("dreaming: ", parseReady.dreaming);
                     break;
                 }
                 case ParseReady.eMODE.ERROR:
                 {   off       ();
+                    parseReady.mode = ParseReady.eMODE.XXX;
+                    R.ForeColor     = Color.Black;
                     break;
                 }
             }
+            F.ActiveControl = R;
         }
 
         private void ALARM_start()

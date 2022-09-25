@@ -61,7 +61,9 @@ namespace BDOtimers
             }
 
             panelsManager.cargo.RemoveAt(i);
-            panelsManager.order          ();
+            panelsManager.order         ( );
+
+            panelsManager.setFocus_for_enable_panel();
 
             Debug.Out.add("Таймер удалён", "...");
         }
@@ -77,7 +79,6 @@ namespace BDOtimers
 
         private void Form1_Load(object sender, EventArgs e)
         {   Debug.Out.T.Visible = false;
-            panelsManager.create();
 
             this        .Controls.Remove(buttonDebugClose);
             textBoxDebug.Controls.Add   (buttonDebugClose);

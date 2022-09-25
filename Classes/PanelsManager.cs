@@ -9,9 +9,9 @@ namespace BDOtimers
 {
     class PanelsManager
     {   public PanelsManager(myTimersForm form)
-        {   F = form;
+        {   F    = form;
           //Debug.Out.T.Visible = true;
-          //create();
+            create();
         }
 
         //---------------------------|
@@ -20,12 +20,14 @@ namespace BDOtimers
         public
         List<PanelTimer> cargo = new List<PanelTimer>();
         myTimersForm                                  F;
-        const int STEPV =                             2;
+        const int STEPV        =                      2;
+        string name            = "BDOtimers  "         ;
 
         public void work(ref Timer t)
         {   foreach (PanelTimer p in cargo)
             {   p.work(ref t);
             }
+            F.labelNameProgram.Text = name + DateTime.Now.ToLongTimeString();
         }
 
         public void create()
@@ -35,6 +37,16 @@ namespace BDOtimers
             }
             cargo.Add(new PanelTimer(F));
             order();
+        }
+
+        public void setFocus_for_enable_panel()
+        {   foreach (PanelTimer p in cargo)
+            {   var R = p.getR();
+                if( R.Enabled)
+                {   F.ActiveControl = R;
+                    break;
+                }
+            }
         }
 
         private PanelTimer find(Panel P)
