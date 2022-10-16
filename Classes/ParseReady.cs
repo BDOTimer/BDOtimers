@@ -8,8 +8,7 @@ namespace BDOtimers
     public class ParseReady
     {   public   ParseReady()
         {   reset();
-            Dalrm = DateTime.Now;
-          //Debug.Out.add("TIME: ", DateTime.Now.ToString());
+          //test ();
         }
 
         private DateTime Dalrm = new DateTime();
@@ -18,10 +17,11 @@ namespace BDOtimers
         public int    dreaming;
 
         public enum eMODE
-        {   BACKTIME ,
-            POINTTIME,
-            ALARM    ,
-            ERROR    ,
+        {   BACKTIME  ,
+            POINTTIME ,
+            ALARM     ,
+            ERROR     ,
+            SECUNDOMER,
             XXX
         }
         public eMODE mode;
@@ -31,7 +31,19 @@ namespace BDOtimers
             usertext = "";
         }
 
-        public string check_time(int minutes)
+        //---------------------------|
+        // set 1.                    }<---| 1.
+        //---------------------------:
+        public string set_secundomer()
+        {   Dalrm = DateTime.Now;
+            mode  = ParseReady.eMODE.SECUNDOMER;
+            return "";
+        } 
+
+        //---------------------------|
+        // set 2.                    |<---| 2.
+        //---------------------------:
+        public string set_time(int minutes)
         {   
             if(minutes > 1440)
             {   return "ERROR: много минут!";
@@ -39,11 +51,14 @@ namespace BDOtimers
             
             Dalrm = DateTime.Now.AddMinutes(minutes);
 
-            mode = ParseReady.eMODE.BACKTIME;
+            mode  = ParseReady.eMODE.BACKTIME;
             return "";
         }    
 
-        public string check_time(int hours, int minutes)
+        //---------------------------|
+        // set 3.                    |<---| 3.
+        //---------------------------:
+        public string set_time(int hours, int minutes)
         {   
             if (hours   > 23) return "ERROR: много часов!";
             if (minutes > 59) return "ERROR: много минут!";
@@ -66,31 +81,44 @@ namespace BDOtimers
         }
 
         public bool is_alarm()
-        {   bool   b = Dalrm.Subtract(DateTime.Now).TotalSeconds < 0.0;
+        {   if(mode == ParseReady.eMODE.SECUNDOMER) return false;
+            
+            bool   b = Dalrm.Subtract(DateTime.Now).TotalSeconds < 0.0;
             if    (b) mode = ParseReady.eMODE.ALARM;
             return b;
         }
 
         public string getready()
         {   switch(mode)
-            {   case ParseReady.eMODE.BACKTIME : return usertext + gettime();
-                case ParseReady.eMODE.POINTTIME: return usertext + gettime();
-                case ParseReady.eMODE.ALARM    : return usertext + "ALARM";
-                case ParseReady.eMODE.XXX      : return "ParseReady.eMODE.XXX";
+            {   case ParseReady.eMODE.SECUNDOMER:
+                case ParseReady.eMODE.BACKTIME  :
+                case ParseReady.eMODE.POINTTIME : return usertext + calcTime() ;
+                case ParseReady.eMODE.ALARM     : return usertext + "ALARM"    ;
+                case ParseReady.eMODE.XXX       : return "ParseReady.eMODE.XXX";
             }
             return "";
         }
 
-        private string gettime()
-        {   TimeSpan t = Dalrm.Subtract(DateTime.Now);
+        private string calcTime()
+        {   TimeSpan t;
 
-            return   t.Hours   .ToString() + ":" +
-                     t.Minutes .ToString() + ":" +
-               ((int)t.Seconds).ToString();
+            if(mode == ParseReady.eMODE.SECUNDOMER)
+            {      t = DateTime.Now.Subtract(Dalrm);
+            }
+            else   t = Dalrm.Subtract(DateTime.Now);
+
+          //return t.ToString().Split('.')  [0];
+            return t.ToString().Substring(0, 8);
+
+            /*
+            return t.Hours   .ToString() + ":" +
+                   t.Minutes .ToString() + ":" +
+             ((int)t.Seconds).ToString() ;
+            */
         }
 
         public void debug()
-        {   Debug.Out.add("gettime() ", gettime());
+        {   Debug.Out.add("gettime() ", calcTime());
         }
 
         public void test()

@@ -9,9 +9,12 @@ namespace BDOtimers
 {
     class PanelsManager
     {   public PanelsManager(myTimersForm form)
-        {   F    = form;
+        {   F                   = form;
           //Debug.Out.T.Visible = true;
+            
+            cursorPanelTime = new CursorPanelTime(form);
             create();
+            cursorPanelTime.setPanel(cargo[0].getPanelCT());
         }
 
         //---------------------------|
@@ -23,6 +26,8 @@ namespace BDOtimers
         const int STEPV        =                      2;
         string name            = "BDOtimers  "         ;
 
+        CursorPanelTime cursorPanelTime;
+
         public void work(ref Timer t)
         {   foreach (PanelTimer p in cargo)
             {   p.work(ref t);
@@ -31,11 +36,11 @@ namespace BDOtimers
         }
 
         public void create()
-        {   if(cargo.Count  == 12)
+        {   if(cargo.Count == 12)
             {   Debug.Out.add("ЛИМИТ: 12 таймеров!");
                 return;
             }
-            cargo.Add(new PanelTimer(F));
+            cargo.Add(new PanelTimer(F, cursorPanelTime));
             order();
         }
 

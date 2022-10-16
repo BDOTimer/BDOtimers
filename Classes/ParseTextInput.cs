@@ -10,37 +10,45 @@ namespace BDOtimers
         {   
         }
 
-        static char[] separ = new char[2]{' ', ','};
+        static char[] separ = new char[2]{' ', ':'};
 
-        public static string done(ref ParseReady parseReady, string s)
+        public static string done(ref ParseReady parseReady, string S)
         {   
-            string[] mm = s.Split(separ, StringSplitOptions.RemoveEmptyEntries);
-
             parseReady.usertext = "";
             parseReady.dreaming =  0;
             parseReady.mode     = ParseReady.eMODE.ERROR;
 
-            List<int> m = new List<int>();
+            string [] s = S.Split(separ, StringSplitOptions.RemoveEmptyEntries);
+            List<int> N = new List<int>();
 
-            for(int i = 0; i < mm.Length; ++i)
-            {   
-                int n = isdigital(mm[i]);
-                if( n == -1)
-                {   parseReady.usertext += mm[i] + " ";
+            //---------------------------|
+            // SECUNDOMER                |
+            //---------------------------:
+            if( (s.Length == 1 && s[0] == "s")         ||
+                (s.Length >  0 && s[0] == "Секундомер" ))
+            {   parseReady.usertext     = "Секундомер: ";
+                return parseReady.set_secundomer      ();
+            }
+
+            for(int i = 0; i < s.Length; ++i)
+            {
+                int n = isdigital(s[i]);
+                if( n < 0)
+                {   parseReady.usertext += s[i] + " ";
                 }
                 else
-                {   if(mm[i][0] == '+') parseReady.dreaming = n;
-                    else                m.Add(n);
+                {   if(s[i][0] == '+') parseReady.dreaming = n;
+                    else               N.Add(n);
                 }
             }
 
             //if(parseReady.dreaming != 0)
             //    Debug.Out.add("dreaming", parseReady.dreaming);
 
-            switch(m.Count)
-            {   case  0: return "Мало данных.";
-                case  1: return parseReady.check_time(m[0]      ); 
-                case  2: return parseReady.check_time(m[0], m[1]);
+            switch(N.Count)
+            {   case  0: return "ERROR: мало данных.";
+                case  1: return parseReady.set_time(N[0]      );
+                case  2: return parseReady.set_time(N[0], N[1]);
                 default: break;
             }
 
@@ -48,13 +56,9 @@ namespace BDOtimers
         }
 
         private static int isdigital(string s)
-        {
-            try
-            {   int    n = Convert.ToInt32(s);
-                return n;
-            }
-            catch  {}
-            return -1;
+        {   try  { return Convert.ToInt32  (s); }
+            catch{                              }
+            return -888;
         }
     }
 }

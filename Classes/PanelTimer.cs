@@ -10,31 +10,22 @@ namespace BDOtimers
 {
     class PanelTimer
     {
-        public PanelTimer(myTimersForm form)
-        {   F = form;
-            P = form.PanelClone();
+        public PanelTimer(myTimersForm form, CursorPanelTime cursorPT)
+        {   F               = form             ;
+            cursorPanelTime = cursorPT         ;
+            P               = form.PanelClone();
 
-            Control[] m = P.Controls.Find("buttonOn", false);
+            B       = (Button     )getControl("buttonOn"        );
+            R       = (RichTextBox)getControl("richTextBoxInput");
+            panelCT = (Panel      )getControl("panelCT"         );
 
-            if (m.Length > 0)
-            {   // m[0].BackColor = MyLib.rgb(0, 0, 255);
-                B = (Button)m[0];
-            }
-            else
-            {   Debug.Out.add("ERROR: PanelTimer(.)"); return;
-            }
-
-            m = P.Controls.Find("richTextBoxInput", false);
-
-            if (m.Length > 0)
-            {   R           = (RichTextBox)m[0];
-                R.MaxLength = 22;
-                R.Font = new System.Drawing.Font("Times"      , 8.2F, 
+            if (R != null)
+            {   R.MaxLength = 22;
+                R.Font = new System.Drawing.Font("Times"      , 8.2F,
                              System.Drawing.FontStyle.Regular , 
                              System.Drawing.GraphicsUnit.Point, ((byte)(2))
                 );
                 R.Multiline = false;
-                
             }
             else
             {   Debug.Out.add("ERROR: PanelTimer.work(.)"); return;
@@ -42,7 +33,7 @@ namespace BDOtimers
 
             initevent();
             off      ();
-          //R.Focus  ();
+            
             F.ActiveControl = R;
         }
 
@@ -59,21 +50,33 @@ namespace BDOtimers
         Panel        P;
         Button       B;
         RichTextBox  R;
+        Panel  panelCT;
 
-        ParseReady parseReady = new ParseReady();
+        CursorPanelTime cursorPanelTime;
+        ParseReady      parseReady = new ParseReady();
+
+        Control getControl(string name)
+        {   Control[] m  = P.Controls.Find(name, false);
+            if(m.Length != 0)
+            {   return m[0];
+            }   return null;
+        }
 
         //-----------------------------|
         // ФАСАД.                      |<<<------------------------------------:
         //-----------------------------|
 
-        public Panel getPanel(       ){ return P     ; }
-        public bool  equals  (Panel p){ return P == p; }
+        public Panel       getPanel     (){ return P      ; }
+        public Panel       getPanelCT   (){ return panelCT; }
+        public RichTextBox getR         (){ return R      ; }
+        public bool        equals(Panel p){ return P == p ; }
 
         public void work(ref Timer t)
         {  
             switch(parseReady.mode)
-            {   case ParseReady.eMODE. BACKTIME:
-                case ParseReady.eMODE.POINTTIME:
+            {   case ParseReady.eMODE.SECUNDOMER: break;
+                case ParseReady.eMODE.BACKTIME  :
+                case ParseReady.eMODE.POINTTIME :
                 {   if(parseReady.is_alarm())
                     {   F.WindowState = FormWindowState.Normal;
                         ALARM_start();
@@ -87,23 +90,34 @@ namespace BDOtimers
             R.Text = parseReady.getready();
         }
 
-        public RichTextBox getR(){ return R; }
-
         //-----------------------------|
         // ПОДВАЛ.                     |<<<------------------------------------:
         //-----------------------------|
 
         string mem;
         private void on()
-        {   P.BackColor = Color.PaleGreen;
-            mem         = R.Text;
-            R.Enabled   = false ;
+        {   
+            switch(parseReady.mode)
+            {   case ParseReady.eMODE.SECUNDOMER : 
+                    P.BackColor = Color.LightBlue;
+                    break;
+                default:
+                    P.BackColor = Color.PaleGreen;
+                    break;
+            }
+
+            mem       = R.Text;
+            R.Enabled = false ;
         }
 
         private void off()
         {   P.BackColor = Color.LemonChiffon;
             R.Text      = mem ;
             R.Enabled   = true;
+
+            if(parseReady.mode != ParseReady.eMODE.ERROR)
+            {   myTimersForm.sound.play(MySounds.eSND.z2_CLICK_OFF);
+            }
         }
 
         private void KeyDown(object sender, KeyEventArgs e)
@@ -128,7 +142,9 @@ namespace BDOtimers
                     parseReady.mode = ParseReady.eMODE.XXX;
                     R.ForeColor     = Color.Black;
                 }
-                else timerstart();
+                else 
+                {   timerstart();
+                }
             }
             else if(e.KeyCode       == Keys.Escape         &&
                     parseReady.mode == ParseReady.eMODE.ALARM)
@@ -142,9 +158,9 @@ namespace BDOtimers
         }
 
         private void initevent()
-        {   
-            B.Click   += new System.EventHandler          (buttonOn_Click);
-            R.KeyDown += new System.Windows.Forms.KeyEventHandler(KeyDown);
+        {   B.Click    += new System.EventHandler          (buttonOn_Click);
+            R.KeyDown  += new System.Windows.Forms.KeyEventHandler(KeyDown);
+            R.GotFocus += new System.EventHandler   (this.richTextBoxFocus);
         }
 
         private void timerstart()
@@ -158,6 +174,7 @@ namespace BDOtimers
             {   if(error.Length == 0)
                 {    on();
                      R.Text = parseReady.getready();
+                     myTimersForm.sound.play(MySounds.eSND.z1_CLICK_ON);
                 }
                 else
                 {   R.ForeColor = Color.Red;
@@ -201,7 +218,8 @@ namespace BDOtimers
                     break;
                 }
                 case ParseReady.eMODE.XXX:
-                {   timerstart();
+                {   
+                    timerstart();
                   //Debug.Out.add("dreaming: ", parseReady.dreaming);
                     break;
                 }
@@ -211,12 +229,33 @@ namespace BDOtimers
                     R.ForeColor     = Color.Black;
                     break;
                 }
+                case ParseReady.eMODE.SECUNDOMER:
+                {   string s = R.Text;
+                    off();     R.Text = s;
+
+                    parseReady.mode = ParseReady.eMODE.XXX;
+                    R.ForeColor     = Color.Black;
+                    break;
+                }
             }
             F.ActiveControl = R;
+
+            cursorPanelTime.setFocusCursor(panelCT);
+        }
+
+        private void richTextBoxFocus(object sender, EventArgs e)
+        {   Panel  p = (Panel)(((RichTextBox)sender).Parent);
+            cursorPanelTime.setFocusCursor(panelCT);
         }
 
         private void ALARM_start()
-        {   Debug.Out.add("ALARM", parseReady.usertext);
+        {   
+            if( parseReady.usertext == "")
+            {   parseReady.usertext =  "Просыпайся!";
+            }
+            
+            Debug.Out.clear();
+            Debug.Out.add("ALARM", parseReady.usertext);
             P.BackColor = Color.Salmon;
             R.Enabled   = true;
             R.Focus();

@@ -89,7 +89,7 @@ namespace BDOtimers
             buttonDebugClose.Left = w - 3;
         }
 
-        public void show_debug( )
+        public void show_debug ()
         {   panelsManager.order();
         }
 
@@ -97,8 +97,11 @@ namespace BDOtimers
         {   this.Close();
         }
 
+        FormHelp formhelp;
         private void buttonHelp_Click(object sender, EventArgs e)
-        {   
+        {   formhelp       = new FormHelp();
+            formhelp.Owner = this;
+            formhelp.Show();
         }
 
         private void timerMain_Tick(object sender, EventArgs e)

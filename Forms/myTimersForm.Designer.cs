@@ -41,6 +41,7 @@
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.buttonDebugClose = new System.Windows.Forms.Button();
+            this.panelCT = new System.Windows.Forms.Panel();
             this.panelManager.SuspendLayout();
             this.panelModel.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +82,7 @@
             // buttonMin
             // 
             this.buttonMin.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonMin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonMin.Location = new System.Drawing.Point(3, 3);
             this.buttonMin.Name = "buttonMin";
             this.buttonMin.Size = new System.Drawing.Size(29, 23);
@@ -92,6 +94,7 @@
             // buttonAdd
             // 
             this.buttonAdd.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonAdd.Location = new System.Drawing.Point(175, 3);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(29, 23);
@@ -104,6 +107,7 @@
             // 
             this.panelModel.BackColor = System.Drawing.Color.LemonChiffon;
             this.panelModel.Controls.Add(this.buttonOn);
+            this.panelModel.Controls.Add(this.panelCT);
             this.panelModel.Controls.Add(this.richTextBoxInput);
             this.panelModel.Location = new System.Drawing.Point(3, 35);
             this.panelModel.Name = "panelModel";
@@ -113,6 +117,7 @@
             // buttonOn
             // 
             this.buttonOn.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonOn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonOn.Location = new System.Drawing.Point(175, 3);
             this.buttonOn.Name = "buttonOn";
             this.buttonOn.Size = new System.Drawing.Size(29, 23);
@@ -160,11 +165,19 @@
             this.buttonDebugClose.UseVisualStyleBackColor = false;
             this.buttonDebugClose.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonDebugClose_MouseUp);
             // 
+            // panelCT
+            // 
+            this.panelCT.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.panelCT.Location = new System.Drawing.Point(174, 2);
+            this.panelCT.Name = "panelCT";
+            this.panelCT.Size = new System.Drawing.Size(31, 25);
+            this.panelCT.TabIndex = 2;
+            // 
             // myTimersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkBlue;
+            this.BackColor = System.Drawing.Color.Blue;
             this.ClientSize = new System.Drawing.Size(213, 260);
             this.Controls.Add(this.buttonDebugClose);
             this.Controls.Add(this.panelModel);
@@ -198,6 +211,7 @@
         private System.Windows.Forms.Button buttonDebugClose;
         public System.Windows.Forms.Panel panelModel;
         public System.Windows.Forms.Label labelNameProgram;
+        public System.Windows.Forms.Panel panelCT;
     }
 }
 

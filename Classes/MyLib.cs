@@ -30,15 +30,23 @@ namespace BDOtimers
                 switch(tp.ToString())
                 {
                     case "System.Windows.Forms.Button":
-                    {   Button     b = new Button( );
+                    {   Button     b        = new Button();
+                                   b.Cursor = Cursors.Hand;
                                    d.Controls.Add(b);
                                    b.UseVisualStyleBackColor = true;
                         copy      (b, O);
+                        
                         break;
                     }
                     case "System.Windows.Forms.RichTextBox":
                     {   RichTextBox b = new RichTextBox( );
                                     d.Controls.Add     (b);
+                        copy       (b, O);
+                        break;
+                    }
+                    case "System.Windows.Forms.Panel":
+                    {   Panel       b = new Panel ( );
+                                    d.Controls.Add(b);
                         copy       (b, O);
                         break;
                     }

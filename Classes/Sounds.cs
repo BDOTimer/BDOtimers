@@ -23,6 +23,8 @@ namespace BDOtimers
         {   ALARM0,
             ALARM1,
             // ...
+            z1_CLICK_ON ,
+            z2_CLICK_OFF,
             end
         }
 

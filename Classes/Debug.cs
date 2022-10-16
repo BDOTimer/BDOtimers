@@ -39,6 +39,11 @@ namespace BDOtimers
         public TextBox      T;
         public myTimersForm F;
 
+        public void clear()
+        {   m.Clear();
+            T.Text = "";
+        }
+
         List<string>        m = new List<string>();
 
         void push(string   s)
