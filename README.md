@@ -14,7 +14,7 @@ ____
     
 ____     
 ## Как оно выглядит:
-![Screenshot in game 1](Doc/124.gif)
+![Screenshot in game 1](Doc/125.gif)
     
 ____     
 ![Screenshot in game 1](Doc/123.gif)
