@@ -1,6 +1,6 @@
  
 ____ 
-# BDOtimres [beta]
+# BDOtimres [RC1]
 
 Тема на кибер-форуме:
 [www.cyberforum.ru](https://www.cyberforum.ru/post16437481.html)
@@ -20,5 +20,8 @@ ____
 ![Screenshot in game 1](Doc/123.gif)
     
 ____     
-[Инструкция ...](Res/Инструкция.txt)
+[Инструкция(old) ...](Res/Инструкция.txt)
+        
+[Инструкция ...](bin/Release/1.rtf)
+
 
