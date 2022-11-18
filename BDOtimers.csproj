@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\CursorPanelTime.cs" />
+    <Compile Include="Classes\Gif.cs" />
     <Compile Include="Classes\MyLib.cs" />
     <Compile Include="Classes\Debug.cs" />
     <Compile Include="Classes\ParseTextInput.cs" />
@@ -88,9 +89,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

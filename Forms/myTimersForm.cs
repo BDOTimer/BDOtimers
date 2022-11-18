@@ -30,7 +30,9 @@ namespace BDOtimers
 
             panelModel.Visible = false;
 
-            //ParseTextInput.test();
+          //ParseTextInput.test();
+
+            gif = new Gif(this);
         }
 
         //---------------------------|
@@ -39,6 +41,7 @@ namespace BDOtimers
         PanelsManager   panelsManager;
         Mover                   mover;
         public static MySounds  sound = new MySounds();
+        public Gif gif;
 
         public void panelsManager_delete(Control C)
         {   if(panelsManager.cargo.Count == 1)
@@ -50,6 +53,7 @@ namespace BDOtimers
             {   Debug.Out.add("ERROR: PanelsManager.delete(.)");
                 return;
             }
+
             C.Visible = false;
             this.Controls.Remove(C);
 
@@ -89,14 +93,6 @@ namespace BDOtimers
             buttonDebugClose.Left = w - 3;
         }
 
-        public void show_debug ()
-        {   panelsManager.order();
-        }
-
-        private void buttonMin_Click(object sender, EventArgs e)
-        {   this.Close();
-        }
-
         FormHelp formhelp;
         private void buttonHelp_Click(object sender, EventArgs e)
         {   formhelp       = new FormHelp();
@@ -114,20 +110,26 @@ namespace BDOtimers
 
         private void xxxrichTextBoxInput_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {   richTextBoxInput.Text = "Enter";
-                e.SuppressKeyPress    = true   ; // Убрать системный звук.
+            switch(e.KeyCode)
+            {   case Keys.Enter:
+                    richTextBoxInput.Text = "Enter";
+                    e.SuppressKeyPress    = true   ; // Убрать системный звук.
+                    break;
+
+                case Keys.Escape:
+                    myClose();
+                    break;
             }
         }
 
         private void buttonDebugClose_MouseUp(object sender, MouseEventArgs e)
-        {   Debug.Out.T.Visible = false;
-            Debug.Out.T.Text    =    "";
-            panelsManager.order      ();
+        {   Debug.Out.Close    ();
+            panelsManager.order();
         }
 
         public static bool is_close = false;
-        private void myTimersForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void myTimersForm_FormClosing(object               sender, 
+                                              FormClosingEventArgs e     )
         {
             if (is_close)
             {   // EXIT!
@@ -143,6 +145,40 @@ namespace BDOtimers
         public void exit ()
         {   is_close = true;
             this.Close   ();
+        }
+
+        public void myClose()
+        {   
+            sound.play(MySounds.eSND.z3_CLOSE);
+
+            Debug.Out.Close    ();
+            panelsManager.order();
+
+            this.Close();
+        }
+
+        private void buttonMin_KeyDown(object sender, KeyEventArgs e)
+        {   
+            // Debug.Out.add("buttonMin_KeyDown");
+
+            switch(e.KeyCode)
+            {   case Keys.Enter:
+                    //richTextBoxInput.Text = "Enter";
+                    //e.SuppressKeyPress    = true   ; // Убрать системный звук.
+                    break;
+
+                case Keys.Escape:
+                    myClose();
+                    break;
+            }
+        }
+
+        public void show_debug ()
+        {   panelsManager.order();
+        }
+
+        private void buttonMin_MouseDown(object sender, MouseEventArgs e)
+        {   if(e.Button == MouseButtons.Left) myClose();
         }
     }
 }

@@ -37,11 +37,11 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.panelModel = new System.Windows.Forms.Panel();
             this.buttonOn = new System.Windows.Forms.Button();
+            this.panelCT = new System.Windows.Forms.Panel();
             this.richTextBoxInput = new System.Windows.Forms.RichTextBox();
             this.timerMain = new System.Windows.Forms.Timer(this.components);
             this.textBoxDebug = new System.Windows.Forms.TextBox();
             this.buttonDebugClose = new System.Windows.Forms.Button();
-            this.panelCT = new System.Windows.Forms.Panel();
             this.panelManager.SuspendLayout();
             this.panelModel.SuspendLayout();
             this.SuspendLayout();
@@ -89,7 +89,8 @@
             this.buttonMin.TabIndex = 1;
             this.buttonMin.Text = "_";
             this.buttonMin.UseVisualStyleBackColor = false;
-            this.buttonMin.Click += new System.EventHandler(this.buttonMin_Click);
+            this.buttonMin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.buttonMin_KeyDown);
+            this.buttonMin.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMin_MouseDown);
             // 
             // buttonAdd
             // 
@@ -124,6 +125,14 @@
             this.buttonOn.TabIndex = 1;
             this.buttonOn.Text = "O";
             this.buttonOn.UseVisualStyleBackColor = false;
+            // 
+            // panelCT
+            // 
+            this.panelCT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.panelCT.Location = new System.Drawing.Point(173, 1);
+            this.panelCT.Name = "panelCT";
+            this.panelCT.Size = new System.Drawing.Size(33, 27);
+            this.panelCT.TabIndex = 2;
             // 
             // richTextBoxInput
             // 
@@ -165,19 +174,11 @@
             this.buttonDebugClose.UseVisualStyleBackColor = false;
             this.buttonDebugClose.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonDebugClose_MouseUp);
             // 
-            // panelCT
-            // 
-            this.panelCT.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.panelCT.Location = new System.Drawing.Point(174, 2);
-            this.panelCT.Name = "panelCT";
-            this.panelCT.Size = new System.Drawing.Size(31, 25);
-            this.panelCT.TabIndex = 2;
-            // 
             // myTimersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Blue;
+            this.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClientSize = new System.Drawing.Size(213, 260);
             this.Controls.Add(this.buttonDebugClose);
             this.Controls.Add(this.panelModel);
@@ -201,17 +202,17 @@
         #endregion
 
         private System.Windows.Forms.Panel panelManager;
-        private System.Windows.Forms.Button buttonMin;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonOn;
         private System.Windows.Forms.RichTextBox richTextBoxInput;
         private System.Windows.Forms.Button buttonHelp;
         private System.Windows.Forms.Timer timerMain;
-        private System.Windows.Forms.TextBox textBoxDebug;
         private System.Windows.Forms.Button buttonDebugClose;
         public System.Windows.Forms.Panel panelModel;
         public System.Windows.Forms.Label labelNameProgram;
         public System.Windows.Forms.Panel panelCT;
+        public System.Windows.Forms.Button buttonMin;
+        public System.Windows.Forms.TextBox textBoxDebug;
     }
 }
 

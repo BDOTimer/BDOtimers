@@ -17,6 +17,8 @@ namespace BDOtimers
     {
         public MySounds()
         {   load_sounds();
+            player .Open(new Uri("snd\\001_yes.mp3", UriKind.Relative));
+            xxxtest    ();
         }
 
         public enum eSND //  sounds.play(MySounds.eSND.MOVE);
@@ -25,6 +27,7 @@ namespace BDOtimers
             // ...
             z1_CLICK_ON ,
             z2_CLICK_OFF,
+            z3_CLOSE    ,
             end
         }
 
@@ -37,9 +40,15 @@ namespace BDOtimers
                     "./snd",
                     "*.wav",
                     SearchOption.TopDirectoryOnly)
-                    select Path.GetFileName(a)
+                    select "snd/" + Path.GetFileName(a)
                 ).ToList();
             sp = new SoundPlayer[files.Count];
+
+            for(int i = 0; i < sp.Length; ++i)
+            {   sp[i] = new SoundPlayer     ();
+                sp[i].SoundLocation = files[i];
+                sp[i].Load();
+            }
         }
 
         private List<SoundPlayer> my;
@@ -58,7 +67,7 @@ namespace BDOtimers
 
         public void play      (MySounds.eSND I)
         {   int i = (int)I;
-            sp [i] = new System.Media.SoundPlayer("snd/" + files[(int)i]);
+          //sp [i] = new System.Media.SoundPlayer("snd/" + files[(int)i]);
             sp [i].Play();
         }
         public void stop(MySounds.eSND I)
@@ -67,7 +76,7 @@ namespace BDOtimers
 
         public void play_sync (MySounds.eSND I)
         {   int i = (int)I;
-            sp [i] = new System.Media.SoundPlayer("snd/" + files[i]);
+          //sp [i] = new System.Media.SoundPlayer("snd/" + files[i]);
             sp [i].PlaySync();
         }
 
@@ -78,15 +87,26 @@ namespace BDOtimers
         {   my[(int)i].PlaySync();
         }
 
-        // Для работы необходимо подключить WindowsBase.dll PresentationCore.dll
-        // [System.Runtime.InteropServices.DllImport("winmm.dll")]
-        // private static extern
-        // Boolean PlaySound(string lpszName, int hModule, int dwFlags);
-        static MediaPlayer player = new MediaPlayer();
         public static void xxxtest()
-        {   player .Open(new Uri("snd\\boyz.mp3", UriKind.Relative));
-            player .Play   ();
-          //player .Close  ();
+        {   xxxtest01();
+          //xxxtest02();
+        }
+        
+        static MediaPlayer player = new MediaPlayer();
+        private static void xxxtest01()
+        { //player.Open (new Uri("snd\\001_yes.mp3", UriKind.Relative));
+            if(!player.IsMuted) player.Stop();
+            player.Play ();
+          //player.Close();
+        }
+
+        // Для работы необходимо подключить WindowsBase.dll PresentationCore.dll
+        [System.Runtime.InteropServices.DllImport("winmm.dll")]
+        private static extern
+        Boolean PlaySound(string lpszName, int hModule, int dwFlags);
+
+        private static void xxxtest02()
+        {   PlaySound("snd\\001_yes.mp3", 4, 255*255);
         }
     }
 }

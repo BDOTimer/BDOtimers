@@ -29,6 +29,11 @@ namespace BDOtimers
             on();
         }
 
+        public void Close()
+        {   T.Visible = false;
+            T.Text    =    "";
+        }
+
         private void on( )
         {   if(!T.Visible)
             {   T.Visible = true;

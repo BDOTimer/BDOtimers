@@ -31,7 +31,7 @@ namespace BDOtimers
             {   Debug.Out.add("ERROR: PanelTimer.work(.)"); return;
             }
 
-            initevent();
+            init_event();
             off      ();
             
             F.ActiveControl = R;
@@ -120,54 +120,11 @@ namespace BDOtimers
             }
         }
 
-        private void KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress  =  true; // Убрать системный звук.
-
-                if(parseReady.mode == ParseReady.eMODE.ALARM)
-                {
-                    ALARM_stop();
-
-                    if(parseReady.dreaming != 0)
-                    {
-                        timerstart_dream();
-                        R.Enabled = false ;
-                    }
-                    else off();
-                }
-                else if(parseReady.mode == ParseReady.eMODE.ERROR)
-                {   off       ();
-                    parseReady.mode = ParseReady.eMODE.XXX;
-                    R.ForeColor     = Color.Black;
-                }
-                else 
-                {   timerstart();
-                }
-            }
-            else if(e.KeyCode       == Keys.Escape         &&
-                    parseReady.mode == ParseReady.eMODE.ALARM)
-            {   
-                off       ();
-                ALARM_stop();
-            }
-            else if(e.KeyCode       == Keys.O)
-            {   Debug.Out.add("");
-            }
-        }
-
-        private void initevent()
-        {   B.Click    += new System.EventHandler          (buttonOn_Click);
-            R.KeyDown  += new System.Windows.Forms.KeyEventHandler(KeyDown);
-            R.GotFocus += new System.EventHandler   (this.richTextBoxFocus);
-        }
-
-        private void timerstart()
+        private ParseReady.eMODE timerstart()
         {
             switch(R.Text.ToLower())
-            {   case "d" : F.panelsManager_delete(P); return;
-                case "ex": F.exit                ( ); return;
+            {   case "d" : F.panelsManager_delete(P); return parseReady.mode;
+                case "ex": F.exit                ( ); return parseReady.mode;
             }
 
             string error = ParseTextInput.done(ref parseReady, R.Text);
@@ -181,6 +138,8 @@ namespace BDOtimers
                     R.Text      = error;
                 }
             }
+
+            return parseReady.mode;
         }
 
         private void timerstart_dream()
@@ -201,9 +160,99 @@ namespace BDOtimers
             }
         }
 
-        private void buttonOn_Click(object sender, EventArgs e)
+        ///---------------------|
+        /// События.            |---------------------------------------------->
+        ///---------------------:
+        private void init_event()
+        {   R.KeyDown   += new System.Windows.Forms.KeyEventHandler(KeyDown);
+          //B.Click     += new System.EventHandler          (buttonOn_Click);
+            R.GotFocus  += new System.EventHandler   (this.richTextBoxFocus);
+            R.MouseDown += new MouseEventHandler(richTextBoxInput_MouseDown);
+            B.MouseDown += new MouseEventHandler(        buttonOn_MouseDown);
+            B.KeyDown   += new KeyEventHandler  (        buttonOn_KeyDown  );
+        }
+
+        private void KeyDown(object sender, KeyEventArgs e)
+        {
+            ///-------------|
+            /// e.KeyCode   |
+            ///-------------:
+            switch(e.KeyCode)
+            {   
+                case Keys.Enter: ///-------------------------------------------:
+                {   e.SuppressKeyPress  = true; // Убрать системный звук.
+
+                    ///-------------------|
+                    /// parseReady.mode   |
+                    ///-------------------:
+                    switch(parseReady.mode)
+                    {   
+                        case ParseReady.eMODE.ALARM:
+                        {   ALARM_stop();
+
+                            if(parseReady.dreaming != 0)
+                            {
+                                timerstart_dream();
+                                R.Enabled = false ;
+
+                                ///----------|
+                                /// Свернуть.|
+                                ///----------:
+                                F.myClose  ();
+                            }
+                            else off();
+                            break;
+                        }
+
+                        case ParseReady.eMODE.ERROR:
+                        {   off();
+                            parseReady.mode = ParseReady.eMODE.XXX;
+                            R.ForeColor     = Color.Black;
+                            break;
+                        }
+
+                        default:
+                        {   if(timerstart() != ParseReady.eMODE.ERROR)
+                            {   B.Focus();
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+                case Keys.Escape: //-------------------------------------------:
+                {   
+                    ///-------------------|
+                    /// parseReady.mode   |
+                    ///-------------------:
+                    switch(parseReady.mode)
+                    {   
+                        case ParseReady.eMODE.ALARM:
+                            off       ();
+                            ALARM_stop();
+                            break;
+
+                        default:
+                            F.myClose();
+                            break;
+                    }
+                    break;
+                }
+
+                case Keys.O: //------------------------------------------------:
+                {   Debug.Out.add ("");
+                    MySounds.xxxtest();
+                    break;
+                }
+            }
+        }
+
+        private void buttonOn_MouseDown(object sender, MouseEventArgs e)
         { 
-          //Debug.Out.add("buttonOn_Click");
+            //----------------------------------|
+            // Debug.Out.add("buttonOn_Click"); |
+            //----------------------------------:
 
             switch(parseReady.mode)
             {   case ParseReady.eMODE.BACKTIME :
@@ -243,6 +292,23 @@ namespace BDOtimers
             cursorPanelTime.setFocusCursor(panelCT);
         }
 
+        private void richTextBoxInput_MouseDown(object sender, MouseEventArgs e)
+        {   if(parseReady.mode == ParseReady.eMODE.ERROR)
+            {   R.Text          = "";
+                R.ForeColor     = Color.Black;
+                parseReady.mode = ParseReady.eMODE.XXX;
+            }
+        }
+
+        private void buttonOn_KeyDown(object sender, KeyEventArgs e)
+        {   
+            switch(e.KeyCode)
+            {   case Keys.Space : buttonOn_MouseDown(sender, null); break;
+                case Keys.Escape: F.myClose         (            ); break;
+            }
+        }
+        ///--------------------------------------------------------------------.
+
         private void richTextBoxFocus(object sender, EventArgs e)
         {   Panel  p = (Panel)(((RichTextBox)sender).Parent);
             cursorPanelTime.setFocusCursor(panelCT);
@@ -261,6 +327,8 @@ namespace BDOtimers
             R.Focus();
 
             myTimersForm.sound.play(MySounds.eSND.ALARM1);
+
+            F.gif.on();
         }
 
         private void ALARM_stop()
@@ -268,6 +336,8 @@ namespace BDOtimers
             parseReady.mode = ParseReady.eMODE.XXX;
 
             myTimersForm.sound.stop(MySounds.eSND.ALARM1);
+
+            F.gif.off();
         }
     }
 }

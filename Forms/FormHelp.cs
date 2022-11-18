@@ -30,7 +30,7 @@ namespace BDOtimers
           //webBrowser1.Navigate(files[0]);
 
             richTextBox1.AllowDrop =  true;
-            richTextBox1.LoadFile("1.rtf");
+            richTextBox1.LoadFile("Help.rtf");
         }
 
         private void webBrowser1_DocumentCompleted
