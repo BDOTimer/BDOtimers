@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace BDOtimers
 {
@@ -87,7 +86,7 @@ namespace BDOtimers
                 default: return;
             }
             
-            R.Text = parseReady.getready();
+            R.Text = parseReady.ToString();
         }
 
         //-----------------------------|
@@ -130,7 +129,7 @@ namespace BDOtimers
             string error = ParseTextInput.done(ref parseReady, R.Text);
             {   if(error.Length == 0)
                 {    on();
-                     R.Text = parseReady.getready();
+                     R.Text = parseReady.ToString();
                      myTimersForm.sound.play(MySounds.eSND.z1_CLICK_ON);
                 }
                 else
@@ -149,9 +148,10 @@ namespace BDOtimers
             R.Text = "Dream: " + dreaming
                    + " +"      + dreaming;
 
-            string error = ParseTextInput.done(ref parseReady, R.Text);
+            string error = ParseTextInput.done(ref parseReady, R.Text + " " 
+                                                 + parseReady.soundName);
             {   if(error.Length == 0)
-                {   R.Text = parseReady.getready();
+                {   R.Text = parseReady.ToString();
                 }
                 else
                 {   R.ForeColor = Color.Red;
@@ -248,6 +248,22 @@ namespace BDOtimers
             }
         }
 
+        private void richTextBoxInput_MouseDown(object sender, MouseEventArgs e)
+        {   if(parseReady.mode == ParseReady.eMODE.ERROR)
+            {   R.Text          = "";
+                R.ForeColor     = Color.Black;
+                parseReady.mode = ParseReady.eMODE.XXX;
+            }
+        }
+
+        private void buttonOn_KeyDown(object sender, KeyEventArgs e)
+        {   
+            switch(e.KeyCode)
+            {   case Keys.Space : buttonOn_MouseDown(sender, null); break;
+                case Keys.Escape: F.myClose         (            ); break;
+            }
+        }
+
         private void buttonOn_MouseDown(object sender, MouseEventArgs e)
         { 
             //----------------------------------|
@@ -291,22 +307,6 @@ namespace BDOtimers
 
             cursorPanelTime.setFocusCursor(panelCT);
         }
-
-        private void richTextBoxInput_MouseDown(object sender, MouseEventArgs e)
-        {   if(parseReady.mode == ParseReady.eMODE.ERROR)
-            {   R.Text          = "";
-                R.ForeColor     = Color.Black;
-                parseReady.mode = ParseReady.eMODE.XXX;
-            }
-        }
-
-        private void buttonOn_KeyDown(object sender, KeyEventArgs e)
-        {   
-            switch(e.KeyCode)
-            {   case Keys.Space : buttonOn_MouseDown(sender, null); break;
-                case Keys.Escape: F.myClose         (            ); break;
-            }
-        }
         ///--------------------------------------------------------------------.
 
         private void richTextBoxFocus(object sender, EventArgs e)
@@ -326,7 +326,12 @@ namespace BDOtimers
             R.Enabled   = true;
             R.Focus();
 
-            myTimersForm.sound.play(MySounds.eSND.ALARM1);
+            if(parseReady.soundName.Length == 0)
+            {   myTimersForm.sound.play(parseReady.soundID);
+            }
+            else
+            {   myTimersForm.sound.play(parseReady.soundName);
+            }
 
             F.gif.on();
         }

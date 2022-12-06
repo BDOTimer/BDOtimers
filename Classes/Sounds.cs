@@ -28,6 +28,8 @@ namespace BDOtimers
             z1_CLICK_ON ,
             z2_CLICK_OFF,
             z3_CLOSE    ,
+            z4_DjTiesto ,
+            z5_Zvonok   ,
             end
         }
 
@@ -66,12 +68,41 @@ namespace BDOtimers
         }
 
         public void play      (MySounds.eSND I)
-        {   int i = (int)I;
+        {   
+            if(I == MySounds.eSND.z5_Zvonok)
+            {   playloop(I);
+                return;
+            }
+            
+            int i = (int)I;
           //sp [i] = new System.Media.SoundPlayer("snd/" + files[(int)i]);
             sp [i].Play();
         }
+        public void playloop  (MySounds.eSND I)
+        {   sp[(int)I].PlayLooping();
+        }
         public void stop(MySounds.eSND I)
         {   sp[(int)I].Stop();
+        }
+
+        /// test
+        ///-------------------------|
+        /// По имени фрагмента.     |
+        ///-------------------------:
+        public void play(string name)
+        {   
+            int a = name.IndexOf("!");
+
+            if(a != -1)
+            {   name = name.Remove(a, 1);
+
+                int i = MyLib.find_index(files, name);
+                sp [i].PlayLooping();
+            }
+            else 
+            {   int i = MyLib.find_index(files, name);
+                sp [i].Play();
+            }
         }
 
         public void play_sync (MySounds.eSND I)

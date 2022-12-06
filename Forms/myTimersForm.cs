@@ -41,7 +41,7 @@ namespace BDOtimers
         PanelsManager   panelsManager;
         Mover                   mover;
         public static MySounds  sound = new MySounds();
-        public Gif gif;
+        public        Gif       gif;
 
         public void panelsManager_delete(Control C)
         {   if(panelsManager.cargo.Count == 1)
@@ -89,8 +89,8 @@ namespace BDOtimers
 
             int w = Debug.Out.T.Width  - buttonDebugClose.Width ;
             int h = Debug.Out.T.Height - buttonDebugClose.Height;
-            buttonDebugClose.Top  = h - 3;
-            buttonDebugClose.Left = w - 3;
+            buttonDebugClose.Top  =  h - 3;
+            buttonDebugClose.Left =  w - 3;
         }
 
         FormHelp formhelp;

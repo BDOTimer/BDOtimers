@@ -37,7 +37,7 @@ namespace BDOtimers
             p.Image = I = Image.FromFile("img/1.gif");
             p.BackgroundImageLayout = ImageLayout.Stretch;
 
-            p.Visible   = false;
+            p.Visible = false;
 
           //Debug.Out.add (">", f.Length);
 

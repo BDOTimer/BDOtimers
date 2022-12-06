@@ -21,6 +21,9 @@ namespace BDOtimers
             string [] s = S.Split(separ, StringSplitOptions.RemoveEmptyEntries);
             List<int> N = new List<int>();
 
+            parseReady.soundID   = getSpecLoudlySound(ref s);
+            parseReady.soundName = MyLib.from_string(S, '[', ']');
+
             //---------------------------|
             // SECUNDOMER                |
             //---------------------------:
@@ -59,6 +62,14 @@ namespace BDOtimers
         {   try  { return Convert.ToInt32  (s); }
             catch{                              }
             return -888;
+        }
+
+        private static MySounds.eSND getSpecLoudlySound(ref string[] s)
+        {   foreach(var tokken in s)
+            {   if (tokken == "!" ) return MySounds.eSND.z4_DjTiesto;/// ALARM0;
+                if (tokken == "!!") return MySounds.eSND.z5_Zvonok  ;
+            }
+            return MySounds.eSND.ALARM1;
         }
     }
 }

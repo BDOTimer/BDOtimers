@@ -13,8 +13,33 @@ namespace BDOtimers
 
         private DateTime Dalrm = new DateTime();
 
-        public string usertext;
-        public int    dreaming;
+        private string        Usertext;
+        private int           Dreaming;
+        private MySounds.eSND  SoundID;
+        private string       SoundName;
+
+        ///---------------------------|
+        /// Свойства.                 |
+        ///---------------------------:
+        public int dreaming
+        {   get{    return Dreaming ; }
+            set{    Dreaming = value; }
+        }
+
+        public string usertext
+        {   get{    return Usertext ; }
+            set{    Usertext = value; }
+        }
+
+        public MySounds.eSND  soundID
+        {   get{    return SoundID  ; }
+            set{    SoundID = value ; }
+        }
+
+        public string  soundName
+        {   get{    return SoundName  ; }
+            set{    SoundName = value ; }
+        }
 
         public enum eMODE
         {   BACKTIME  ,
@@ -45,7 +70,7 @@ namespace BDOtimers
         //---------------------------:
         public string set_time(int minutes)
         {   
-            if(minutes > 1440)
+            if(minutes > 9999)
             {   return "ERROR: много минут!";
             }
             
@@ -59,7 +84,7 @@ namespace BDOtimers
         // set 3.                    |<---| 3.
         //---------------------------:
         public string set_time(int hours, int minutes)
-        {   
+        {
             if (hours   > 23) return "ERROR: много часов!";
             if (minutes > 59) return "ERROR: много минут!";
 
@@ -88,11 +113,11 @@ namespace BDOtimers
             return b;
         }
 
-        public string getready()
+        public override string ToString()
         {   switch(mode)
-            {   case ParseReady.eMODE.SECUNDOMER:
-                case ParseReady.eMODE.BACKTIME  :
-                case ParseReady.eMODE.POINTTIME : return usertext + calcTime() ;
+            {   case ParseReady.eMODE.BACKTIME  :
+                case ParseReady.eMODE.POINTTIME : 
+                case ParseReady.eMODE.SECUNDOMER: return usertext + calcTime() ;
                 case ParseReady.eMODE.ALARM     : return usertext + "ALARM"    ;
                 case ParseReady.eMODE.XXX       : return "ParseReady.eMODE.XXX";
             }
@@ -100,21 +125,25 @@ namespace BDOtimers
         }
 
         private string calcTime()
-        {   TimeSpan t;
+        {   
+            TimeSpan t;
 
-            if(mode == ParseReady.eMODE.SECUNDOMER)
-            {      t = DateTime.Now.Subtract(Dalrm);
+            switch(mode)
+            {   
+                case ParseReady.eMODE.SECUNDOMER:
+                    t = DateTime.Now.Subtract(Dalrm); break;
+
+                default:
+                    t = Dalrm.Subtract(DateTime.Now); break;
             }
-            else   t = Dalrm.Subtract(DateTime.Now);
 
-          //return t.ToString().Split('.')  [0];
-            return t.ToString().Substring(0, 8);
+            string days = t.Days == 0 ?  "" : t.Days.ToString() + " days ";
 
-            /*
-            return t.Hours   .ToString() + ":" +
-                   t.Minutes .ToString() + ":" +
-             ((int)t.Seconds).ToString() ;
-            */
+            return  String.Format("{0}{1:D2}:{2:D2}:{3:D2}",
+                    days      ,
+                    t.Hours   ,
+                    t.Minutes ,
+               (int)t.Seconds);
         }
 
         public void debug()

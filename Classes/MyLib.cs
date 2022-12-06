@@ -61,5 +61,31 @@ namespace BDOtimers
                 ((int)(((byte)(b))))
             );
         }
+
+        public static string from_string(string s, char from, char to)
+        {   int a  =  s.IndexOf(from, 0);
+            if( a == -1) return "";
+            int b  =  s.IndexOf(to, a);
+            if( b == -1) return "";
+            return    s.Substring(a, b - a + 1);
+        }
+
+        public static bool isexist(string s, string name)
+        {   return -1 != s.IndexOf(name, 0);
+        }
+
+        public static int find_index(string[] s, string name)
+        {   for(int i  = 0; i < s.Length; ++i)
+            {   if(-1 !=  s[i].IndexOf(name, 0)) return i;
+            }
+            return 0;
+        }
+
+        public static int find_index(List<string> s, string name)
+        {   for(int i  = 0; i < s.Count; ++i)
+            {   if(-1 !=  s[i].IndexOf(name, 0)) return i;
+            }
+            return 0;
+        }
     }
 }
