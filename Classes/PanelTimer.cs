@@ -85,9 +85,13 @@ namespace BDOtimers
                 }
                 default: return;
             }
-            
-            R.Text = parseReady.ToString();
+
+            if(F.WindowState == FormWindowState.Normal)
+            {   R.Text = parseReady.ToString();
+            }
+            else R.Text = "...";
         }
+
 
         //-----------------------------|
         // ПОДВАЛ.                     |<<<------------------------------------:

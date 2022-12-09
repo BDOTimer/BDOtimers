@@ -87,5 +87,11 @@ namespace BDOtimers
             }
             return 0;
         }
+
+        public static int xxxfind_index(List<string> s, string name)
+        {   string res = s.FirstOrDefault(n => n.IndexOf(name, 0)  != -1);
+            int     i  = s.IndexOf(res);
+            return  i != -1 ? i : 0;
+        }
     }
 }

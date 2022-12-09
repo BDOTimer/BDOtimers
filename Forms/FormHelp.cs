@@ -39,12 +39,12 @@ namespace BDOtimers
             /// ...
         }
 
-        private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {  //this.Close();
+        private void richTextBox1_MouseDown(object sender, MouseEventArgs e)
+        {   this.Close();
         }
 
-        private void richTextBox1_MouseUp(object sender, MouseEventArgs e)
-        {   this.Close();
+        private void richTextBoxForum_MouseUp(object sender, MouseEventArgs e)
+        {   
         }
     }
 }

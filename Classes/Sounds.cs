@@ -21,7 +21,7 @@ namespace BDOtimers
             xxxtest    ();
         }
 
-        public enum eSND //  sounds.play(MySounds.eSND.MOVE);
+        public enum eSND //  sounds.play(MySounds.eSND.z1_CLICK_ON);
         {   ALARM0,
             ALARM1,
             // ...
