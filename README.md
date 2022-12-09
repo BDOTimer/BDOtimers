@@ -12,8 +12,7 @@ ____
 
 Возможно понадобится дополнительная установка: [dotNetFx40_Client_x86_x64.exe](https://www.microsoft.com/ru-RU/download/details.aspx?id=24872). 
 
-drive.google.com [dotNetFx40_Client_x86_x64.exe]
-(https://drive.google.com/file/d/1s-fP9rhNCRRQBeTIfInHhrmIaNvHoOn4/view?usp=share_link). 
+drive.google.com [dotNetFx40_Client_x86_x64.exe](https://drive.google.com/file/d/1s-fP9rhNCRRQBeTIfInHhrmIaNvHoOn4/view?usp=share_link). 
     
 ____     
 ## Как оно выглядит:
