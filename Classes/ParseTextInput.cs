@@ -36,13 +36,10 @@ namespace BDOtimers
             for(int i = 0; i < s.Length; ++i)
             {
                 int n = isdigital(s[i]);
-                if( n < 0)
-                {   parseReady.usertext += s[i] + " ";
-                }
-                else
-                {   if(s[i][0] == '+') parseReady.dreaming = n;
-                    else               N.Add(n);
-                }
+
+                     if( n       <   0 ) parseReady.usertext += s[i] + " ";
+                else if( s[i][0] == '+') parseReady.dreaming = n;
+                else                     N.Add(n);
             }
 
             //if(parseReady.dreaming != 0)
@@ -63,11 +60,11 @@ namespace BDOtimers
             catch{                              }
             return -888;
         }
-
+        
         private static MySounds.eSND getSpecLoudlySound(ref string[] s)
-        {   foreach(var tokken in s)
-            {   if (tokken == "!" ) return MySounds.eSND.z4_DjTiesto;/// ALARM0;
-                if (tokken == "!!") return MySounds.eSND.z5_Zvonok  ;
+        {   foreach(var tokken in  s  )
+            {   if     (tokken == "!" ) return MySounds.eSND.z4_DjTiesto;
+                if     (tokken == "!!") return MySounds.eSND.z5_Zvonok  ;
             }
             return MySounds.eSND.ALARM1;
         }

@@ -46,10 +46,14 @@ namespace BDOtimers
                 ).ToList();
             sp = new SoundPlayer[files.Count];
 
-            for(int i = 0; i < sp.Length; ++i)
-            {   sp[i] = new SoundPlayer     ();
-                sp[i].SoundLocation = files[i];
-                sp[i].Load();
+            for(int i  = 0; i < sp.Length; ++i)
+            {   sp [i] = new SoundPlayer     ();
+                sp [i].SoundLocation = files[i];
+              //sp [i].Load     ();
+                sp [i].LoadAsync();
+              //sp [i].Stream = new FileStream( files[i],
+              //                                FileMode.Open,
+              //                                FileAccess.Read );
             }
         }
 

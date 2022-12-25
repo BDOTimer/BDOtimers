@@ -92,7 +92,6 @@ namespace BDOtimers
             else R.Text = "...";
         }
 
-
         //-----------------------------|
         // ПОДВАЛ.                     |<<<------------------------------------:
         //-----------------------------|
@@ -316,6 +315,8 @@ namespace BDOtimers
         private void richTextBoxFocus(object sender, EventArgs e)
         {   Panel  p = (Panel)(((RichTextBox)sender).Parent);
             cursorPanelTime.setFocusCursor(panelCT);
+
+            MyLib.setLangKeyboard();
         }
 
         private void ALARM_start()

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace BDOtimers
 {
@@ -43,8 +44,16 @@ namespace BDOtimers
         {   this.Close();
         }
 
-        private void richTextBoxForum_MouseUp(object sender, MouseEventArgs e)
-        {   
+        private void FormHelp_Load(object sender, EventArgs e)
+        {   richTextBox1.GotFocus += eventGotFocus;
+        }
+
+        private void eventGotFocus(object sender, EventArgs e)
+        {   linkForum.Focus();
+        }
+
+        private void linkForum_MouseDown(object sender, MouseEventArgs e)
+        {   Process.Start(@"https:/www.cyberforum.ru/post16437481.html");
         }
     }
 }

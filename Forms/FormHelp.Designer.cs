@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.linkForum = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -45,22 +45,27 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseDown);
             // 
-            // richTextBox2
+            // linkForum
             // 
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Location = new System.Drawing.Point(460, 4);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(113, 18);
-            this.richTextBox2.TabIndex = 2;
-            this.richTextBox2.Text = "www.cyberforum.ru";
-            this.richTextBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.richTextBoxForum_MouseUp);
+            this.linkForum.AutoSize = true;
+            this.linkForum.BackColor = System.Drawing.Color.FloralWhite;
+            this.linkForum.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkForum.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.linkForum.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.linkForum.Location = new System.Drawing.Point(456, 4);
+            this.linkForum.Name = "linkForum";
+            this.linkForum.Size = new System.Drawing.Size(98, 13);
+            this.linkForum.TabIndex = 2;
+            this.linkForum.Text = "www.cyberforum.ru";
+            this.linkForum.Click += new System.EventHandler(this.FormHelp_Load);
+            this.linkForum.MouseDown += new System.Windows.Forms.MouseEventHandler(this.linkForum_MouseDown);
             // 
             // FormHelp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(575, 377);
-            this.Controls.Add(this.richTextBox2);
+            this.Controls.Add(this.linkForum);
             this.Controls.Add(this.richTextBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MinimizeBox = false;
@@ -71,13 +76,15 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Help";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.FormHelp_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Label linkForum;
     }
 }
