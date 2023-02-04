@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using System.Windows.Forms;
 using System.Drawing;
-
 using System.Runtime.InteropServices;
 
 namespace BDOtimers
@@ -148,5 +148,43 @@ namespace BDOtimers
 
         [DllImport("user32.dll")]
         static extern int LoadKeyboardLayout(string pwszKLID, uint Flags);
+
+        ///---------------------------------------------------|
+        /// Загрузка строк из текстового файла.               |
+        ///---------------------------------------------------:
+        public static List<string> load_config(string filename)
+        {
+            List<string> list = new List<string>();
+
+            try
+            {   FileStream filestream = new FileStream(
+                    filename,
+                    FileMode.Open,
+                    FileAccess.Read);
+
+                StreamReader reader = new StreamReader(filestream);
+
+                for(string   s = reader.ReadLine(); null != s;)
+                {   list.Add(s);
+                             s = reader.ReadLine();
+                }
+
+                reader    .Close();
+                filestream.Close();
+            }
+            catch
+            {
+            }
+
+            return list;
+        }
+
+        public static string list2str(List<string> list)
+        {   string str = "\r\n";
+            foreach(string s in list)
+            {   str += s + "\r\n";
+            }
+            return str;
+        }
     }
 }

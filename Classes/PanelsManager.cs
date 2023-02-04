@@ -11,10 +11,13 @@ namespace BDOtimers
     {   public PanelsManager(myTimersForm form)
         {   F                   = form;
           //Debug.Out.T.Visible = true;
-            
+
             cursorPanelTime = new CursorPanelTime(form);
+
             create();
             cursorPanelTime.setPanel(cargo[0].getPanelCT());
+
+            load_config();
         }
 
         //---------------------------|
@@ -35,12 +38,12 @@ namespace BDOtimers
             F.labelNameProgram.Text = name + DateTime.Now.ToLongTimeString();
         }
 
-        public void create()
+        public void create(string txt = "")
         {   if(cargo.Count == 12)
             {   Debug.Out.add("ЛИМИТ: 12 таймеров!");
                 return;
             }
-            cargo.Add(new PanelTimer(F, cursorPanelTime));
+            cargo.Add(new PanelTimer(F, cursorPanelTime, txt));
             order();
         }
 
@@ -85,6 +88,28 @@ namespace BDOtimers
             else
             {   F.Height = top + 2;
             }
+        }
+
+        public int load_config()
+        {   
+            var list = MyLib.load_config("cfg.txt");
+            
+            //Debug.Out.add("cfg.txt:\r\n", MyLib.list2str(list));
+
+            int cnt = 0;
+
+            foreach(string str in list)
+            {   
+                if( str.Length == 0 || str[0] == '-') continue;
+
+                if(-1 != str.IndexOf("[empty]")) create(   );
+                else                             create(str);
+
+                cnt++;
+
+                cursorPanelTime.setFocusCursor(cargo[cnt].getPanelCT());
+            }
+            return cnt;
         }
     }
 }

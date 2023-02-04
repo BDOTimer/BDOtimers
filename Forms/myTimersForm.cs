@@ -33,6 +33,9 @@ namespace BDOtimers
           //ParseTextInput.test();
 
             gif = new Gif(this);
+
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint , true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         //---------------------------|
@@ -55,7 +58,7 @@ namespace BDOtimers
             }
 
             C.Visible = false;
-            this.Controls.Remove(C);
+            this.Controls.Remove(C);////////////////////////////////////////////
 
             int i = 0;
             {   foreach(var pt in panelsManager.cargo)
@@ -179,6 +182,18 @@ namespace BDOtimers
 
         private void buttonMin_MouseDown(object sender, MouseEventArgs e)
         {   if(e.Button == MouseButtons.Left) myClose();
+        }
+
+        private void panelManager_Paint(object sender, PaintEventArgs e)
+        {
+            GDI.gradient(panelManager, e, Color.LightSkyBlue, Color.Blue);
+
+            /*
+            ControlPaint.DrawBorder3D(
+                e.Graphics,
+                panelManager.ClientRectangle,
+                Border3DStyle.RaisedInner);
+            */
         }
     }
 }

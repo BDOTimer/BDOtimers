@@ -57,14 +57,17 @@
             this.panelManager.Name = "panelManager";
             this.panelManager.Size = new System.Drawing.Size(207, 29);
             this.panelManager.TabIndex = 0;
+            this.panelManager.Paint += new System.Windows.Forms.PaintEventHandler(this.panelManager_Paint);
             // 
             // labelNameProgram
             // 
             this.labelNameProgram.AutoSize = true;
-            this.labelNameProgram.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.labelNameProgram.BackColor = System.Drawing.Color.Transparent;
+            this.labelNameProgram.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F, System.Drawing.FontStyle.Bold);
+            this.labelNameProgram.ForeColor = System.Drawing.Color.Yellow;
             this.labelNameProgram.Location = new System.Drawing.Point(38, 8);
             this.labelNameProgram.Name = "labelNameProgram";
-            this.labelNameProgram.Size = new System.Drawing.Size(69, 13);
+            this.labelNameProgram.Size = new System.Drawing.Size(76, 12);
             this.labelNameProgram.TabIndex = 3;
             this.labelNameProgram.Text = "BDOtimers-...";
             // 

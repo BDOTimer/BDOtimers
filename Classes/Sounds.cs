@@ -7,6 +7,9 @@ using System.IO;
 using System.Media;
 
 using System.Windows.Media; // WindowsBase.dll, PresentationCore.dll
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace BDOtimers
 {
@@ -17,7 +20,7 @@ namespace BDOtimers
     {
         public MySounds()
         {   load_sounds();
-            player .Open(new Uri("snd\\001_yes.mp3", UriKind.Relative));
+            //player .Open(new Uri("snd\\001_yes.mp3", UriKind.Relative));
             xxxtest    ();
         }
 
@@ -71,7 +74,7 @@ namespace BDOtimers
             }
         }
 
-        public void play      (MySounds.eSND I)
+        private void play_t (MySounds.eSND I)
         {   
             if(I == MySounds.eSND.z5_Zvonok)
             {   playloop(I);
@@ -93,7 +96,7 @@ namespace BDOtimers
         ///-------------------------|
         /// По имени фрагмента.     |
         ///-------------------------:
-        public void play(string name)
+        private void play_t(string name)
         {   
             int a = name.IndexOf("!");
 
@@ -142,6 +145,35 @@ namespace BDOtimers
 
         private static void xxxtest02()
         {   PlaySound("snd\\001_yes.mp3", 4, 255*255);
+        }
+
+        ///-------------------|
+        /// Thread.           |
+        ///-------------------:
+        MySounds.eSND id_sound;
+        public void play(MySounds.eSND n)
+        {   id_sound = n;
+            Thread 
+            t = new Thread(new ThreadStart(this.foofoo));
+            t.Start();
+        }
+
+        private void foofoo()
+        {   play_t (id_sound);
+            //Debug.Out.add("Sound::foofoo - ", id_sound.ToString());
+        }
+
+        string name_sound;
+        public void play(string s)
+        {   name_sound = s;
+            Thread
+            t = new Thread(new ThreadStart(this.foofoo_name));
+            t.Start();
+        }
+
+        private void foofoo_name()
+        {   play_t (name_sound);
+            //Debug.Out.add("Sound::foofoo_name - ", name_sound);
         }
     }
 }

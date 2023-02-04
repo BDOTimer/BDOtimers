@@ -24,9 +24,9 @@ namespace BDOtimers
             on  ( );
         }
 
-        public void add<T_>(string s, T_ n)
+        public void add<T>(string s, T n)
         {   push(s + ": " + Convert.ToString(n));
-            on();
+            on  ();
         }
 
         public void Close()
@@ -45,11 +45,11 @@ namespace BDOtimers
         public myTimersForm F;
 
         public void clear()
-        {   m.Clear();
+        {   m.Clear  ();
             T.Text = "";
         }
 
-        List<string>        m = new List<string>();
+        List<string> m = new List<string>();
 
         void push(string   s)
         {   if(m.Count ==  7) m.RemoveAt(0);

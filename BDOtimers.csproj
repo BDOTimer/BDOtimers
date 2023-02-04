@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\CursorPanelTime.cs" />
+    <Compile Include="Classes\GDI.cs" />
     <Compile Include="Classes\Gif.cs" />
     <Compile Include="Classes\MyLib.cs" />
     <Compile Include="Classes\Debug.cs" />

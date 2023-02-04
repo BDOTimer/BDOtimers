@@ -9,7 +9,10 @@ namespace BDOtimers
 {
     class PanelTimer
     {
-        public PanelTimer(myTimersForm form, CursorPanelTime cursorPT)
+        public PanelTimer(
+            myTimersForm    form    ,
+            CursorPanelTime cursorPT,
+            string          txt = "")
         {   F               = form             ;
             cursorPanelTime = cursorPT         ;
             P               = form.PanelClone();
@@ -34,6 +37,8 @@ namespace BDOtimers
             off      ();
             
             F.ActiveControl = R;
+
+            R.Text = txt;
         }
 
         enum eWork
@@ -287,9 +292,11 @@ namespace BDOtimers
                 }
                 case ParseReady.eMODE.XXX:
                 {   
-                    timerstart();
+                    if(timerstart() != ParseReady.eMODE.ERROR)
+                    {   B.Focus();
+                    }
                   //Debug.Out.add("dreaming: ", parseReady.dreaming);
-                    break;
+                    return;
                 }
                 case ParseReady.eMODE.ERROR:
                 {   off       ();
@@ -306,7 +313,9 @@ namespace BDOtimers
                     break;
                 }
             }
-            F.ActiveControl = R;
+          //F.ActiveControl = R;
+          //F.ActiveControl = F.buttonMin;
+          //F.buttonMin.Focus();
 
             cursorPanelTime.setFocusCursor(panelCT);
         }
